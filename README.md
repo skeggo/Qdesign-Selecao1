@@ -42,8 +42,6 @@
 
 Modern biological research faces critical challenges:
 
-Modern biological research faces critical challenges:
-
 | Challenge | Impact | Our Solution |
 |-----------|---------|--------------|
 | 🗂️ **Data Fragmentation** | Scattered across multiple formats | Unified multimodal workspace |
@@ -95,7 +93,7 @@ Or create your own account and join with code: **`WKYQ35`**
 
 <div align="center">
 
-**Moetez Fradi** • **Ghassen Naouar** • **Ahmed Saad** • **Omar**
+**Moetez Fradi** • **Ghassen Naouar** • **Ahmed Saad** • **Omar Chiboub**
 
 </div>
 
