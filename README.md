@@ -22,6 +22,11 @@ QDesign addresses critical challenges in modern biological research:
 
 https://youtu.be/1vimfGWMWEE
 
+## Presentation:
+
+https://www.canva.com/design/DAG_6XAIBvE/s5XiOzb92TIEW1BbpaGG5g/edit?utm_content=DAG_6XAIBvE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+
+
 ## Live URL (no LLM and retrieval endpoints included because of free tier limitations):
 
 https://qdesign.moetezfradi.me 
