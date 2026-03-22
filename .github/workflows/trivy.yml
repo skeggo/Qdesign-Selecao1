@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Trivy config scan
         uses: aquasecurity/trivy-action@master
@@ -54,9 +56,14 @@ jobs:
           - service: co-scientist-service
             context: backend/Services/co_scientist_service
             dockerfile: backend/Services/co_scientist_service/Dockerfile
+          - service: xqdrant
+            context: XQdrant
+            dockerfile: XQdrant/Dockerfile
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Build ${{ matrix.service }} image
         run: |
