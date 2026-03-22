@@ -32,3 +32,4 @@ python-dotenv>=1.0.0     # Environment configuration
 numpy>=1.24.0            # Numerical computing
 tqdm>=4.66.0             # Progress bars
 requests>=2.31.0         # HTTP requests
+slowapi>=0.1.9           # Rate limiting for FastAPI

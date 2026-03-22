@@ -22,3 +22,4 @@ pytest-asyncio
 streamlit
 plotly
 xmltodict
+slowapi>=0.1.9

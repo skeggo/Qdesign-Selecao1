@@ -3,9 +3,13 @@ FastAPI application for the Multi-Modal Retrieval Service.
 Handles data pool analysis and graph generation for biomedical research objectives.
 """
 
+import os
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 from contextlib import asynccontextmanager
 import logging
 import sys
@@ -46,13 +50,16 @@ async def lifespan(app: FastAPI):
         # Cleanup
         logger.info("Shutting down Multi-Modal Retrieval Service")
 
+# Rate limiter
+limiter = Limiter(key_func=get_remote_address, default_limits=["200/minute"])
+
 # Create FastAPI application
 app = FastAPI(
     title="Multi-Modal Retrieval Service",
     description="""
-    Advanced AI-powered service for processing multi-modal data pools and generating 
+    Advanced AI-powered service for processing multi-modal data pools and generating
     knowledge graphs for biomedical research objectives.
-    
+
     Features:
     - Multi-modal file parsing (PDF, CIF, PDB, text, images)
     - AI-powered content analysis and relationship detection
@@ -66,10 +73,16 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Add CORS middleware
+# Rate limiting
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+# CORS
+_raw_origins = os.getenv("CORS_ORIGINS", "http://localhost:3000,http://localhost:3002")
+_allowed_origins = [o.strip() for o in _raw_origins.split(",")]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Configure appropriately for production
+    allow_origins=_allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
