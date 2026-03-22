@@ -1,7 +1,7 @@
-# knowledge_service — FastAPI
-FROM python:3.11-slim
+# ── Stage 1: build ───────────────────────────────────────────────────────────
+# Full image with compilers to build native extensions (psycopg2, numpy, etc.)
+FROM python:3.11 AS builder
 
-# Build tools needed for psycopg2, numpy, biopython, etc.
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     python3-dev \
@@ -9,15 +9,21 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Install deps first (layer cache)
-COPY requirements.txt /app/knowledge_service/requirements.txt
-RUN pip install --no-cache-dir -r /app/knowledge_service/requirements.txt
+COPY requirements.txt .
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 
-# Copy service source as a Python package so
-# "from knowledge_service.api import router" resolves correctly
+# ── Stage 2: runner ───────────────────────────────────────────────────────────
+# Slim image — no compilers, only the installed packages copied over
+FROM python:3.11-slim AS runner
+
+WORKDIR /app
+
+# Copy installed packages from builder
+COPY --from=builder /install /usr/local
+
+# Copy service source
 COPY . /app/knowledge_service/
 
-# /app is on PYTHONPATH so "knowledge_service" is importable
 ENV PYTHONPATH=/app
 
 EXPOSE 8001

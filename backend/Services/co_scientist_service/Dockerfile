@@ -1,7 +1,7 @@
-# co_scientist_service — FastAPI
-FROM python:3.11-slim
+# ── Stage 1: build ───────────────────────────────────────────────────────────
+# Full image with compilers to build native extensions (faiss-cpu, spacy, etc.)
+FROM python:3.11 AS builder
 
-# faiss-cpu and spacy need build tools
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     python3-dev \
@@ -10,8 +10,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /app
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 
+# ── Stage 2: runner ───────────────────────────────────────────────────────────
+# Slim image — no compilers, only the installed packages copied over
+FROM python:3.11-slim AS runner
+
+WORKDIR /app
+
+# Copy installed packages from builder
+COPY --from=builder /install /usr/local
+
+# Copy service source
 COPY . .
 
 ENV PYTHONPATH=/app
