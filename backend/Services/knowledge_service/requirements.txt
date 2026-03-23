@@ -25,7 +25,7 @@ torchvision>=0.15.0      # Required by CLIP
 fair-esm>=2.0.0          # Facebook ESM protein models
 
 # Vector database
-qdrant-client>=2.7.0     # Qdrant vector DB client
+qdrant-client>=1.7.0     # Qdrant vector DB client
 
 # Utilities
 python-dotenv>=1.0.0     # Environment configuration
