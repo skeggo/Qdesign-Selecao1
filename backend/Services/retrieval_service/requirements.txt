@@ -35,7 +35,6 @@ protobuf==6.33.4
 pydantic==2.12.5
 pydantic-core==2.41.5
 python-dotenv==1.2.1
-pywin32==311
 pyyaml==6.0.3
 qdrant-client==1.16.2
 requests==2.32.5
@@ -53,3 +52,8 @@ uvicorn==0.40.0
 xxhash==3.6.0
 zstandard==0.25.0
 slowapi==0.1.9
+fair-esm>=2.0.0
+torch>=2.0.0
+torchvision>=0.15.0
+openai-clip>=1.0.0
+Pillow>=9.0.0
